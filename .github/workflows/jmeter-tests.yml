@@ -1,0 +1,50 @@
+name: JMeter Load Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Para ejecutarlo manualmente desde Actions
+
+jobs:
+  jmeter-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Download Apache JMeter
+        run: |
+          curl -L https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz -o jmeter.tgz
+          tar -xzf jmeter.tgz
+          mv apache-jmeter-5.6.3 jmeter
+
+      - name: Run JMeter test plan
+        run: |
+          mkdir -p results
+          ./jmeter/bin/jmeter -n \
+            -t Modulo7-ActividadClase4-Grupo4.jmx \
+            -l results/result.jtl \
+            -e -o results/report
+
+      - name: Upload raw results
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-raw-results
+          path: results/result.jtl
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-html-report
+          path: results/report
