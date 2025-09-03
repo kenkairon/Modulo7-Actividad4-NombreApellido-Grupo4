@@ -1,4 +1,11 @@
 # 📊 Informe de Pruebas de Carga con JMeter
+## Módulo 7 - Sesion N°4 - Actividad 4
+
+### Equipo 4: 
+- Felipe Lobos
+- Fabiola Díaz
+- Eduardo Arellano
+- Carlos Vasquez
 
 ## 1. Configuración de la Prueba
 - **Usuarios concurrentes (Threads):** 40  
